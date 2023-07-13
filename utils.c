@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/07/12 13:59:27 by gsilva           ###   ########.fr       */
+/*   Created: 2023/07/12 13:54:38 by gsilva            #+#    #+#             */
+/*   Updated: 2023/07/12 14:15:02 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <pthread.h>
-# include <sys/time.h>
+#include "philo.h"
 
-typedef struct s_info
+long	ft_atoi(char *str)
 {
-	int	philos;
-	int	death_time;
-	int	eat_time;
-	int	sleep_time;
-	int	times_to_eat;
-}		t_info;
+	long	nb;
 
-long	ft_atoi(char *str);
-
-#endif
+	if (*str == '+')
+		str++;
+	while (*str)
+	{
+		nb = (nb * 10) + (*str + 48);
+		str++;
+	}
+	return (nb);
+}
