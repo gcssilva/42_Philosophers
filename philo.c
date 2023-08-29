@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/07/12 14:16:41 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/29 15:39:41 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@ t_info	*info(void)
 	static t_info	_info;
 
 	return (&_info);
-}
-
-int	is_nb(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
 }
 
 int	check_input(char **argv)
@@ -37,8 +30,6 @@ int	check_input(char **argv)
 		j = -1;
 		while (argv[i][++j])
 		{
-			if (j == 0 && argv[i][j] == '+')
-				j++;
 			if (!is_nb(argv[i][j]))
 				return (0);
 		}
@@ -48,16 +39,21 @@ int	check_input(char **argv)
 
 int	main(int argc, char **argv)
 {
+	int	i;
+
 	if ((argc > 4 && argc < 7) && check_input(argv))
 	{
-		(info()->philos) = ft_atoi(argv[1]);
+		(info()->n_philos) = ft_atoi(argv[1]);
 		(info()->death_time) = ft_atoi(argv[2]);
 		(info()->eat_time) = ft_atoi(argv[3]);
 		(info()->sleep_time) = ft_atoi(argv[4]);
 		if (argc == 6)
 			(info()->times_to_eat) = ft_atoi(argv[5]);
+		i = info()->eat_time - info()->sleep_time;
+		if (i < 0)
+			i = 0;
+		create_philos(i);
 	}
 	else
 		return(write(1, "Invalid arguments!\n", 19));
-	return (0);
 }
