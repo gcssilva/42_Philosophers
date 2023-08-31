@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/31 16:43:36 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:45:36 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	create_philos(void)
 			(info()->philos[i].next) = 1;
 		(info()->philos[i].meals_left) = info()->times_to_eat;
 		(info()->philos[i].last_meal) = info()->start_time;
-		pthread_create((&info()->philos[i].thread), 0, &philo_handler, (void *)&(info()->philos[i]));
+		pthread_create(&(info()->philos[i].thread), 0, &philo_handler, (void *)&(info()->philos[i]));
 	}
 	i = -1;
 	while (++i < n_philos)
