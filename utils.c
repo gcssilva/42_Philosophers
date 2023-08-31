@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 13:33:27 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/31 16:14:06 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:01:14 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_nb(int c);
 long	ft_atoi(const char *str);
 void	print_act(int time, int id, char *act);
 long	current_time(void);
-void	wait_time(long start);
+void	wait_time(void);
 
 int	is_nb(int c)
 {
@@ -68,7 +68,7 @@ long	current_time(void)
 	return ((tv.tv_sec * 1000000L) + tv.tv_usec);
 }
 
-void	wait_time(long start)
+void	wait_time(void)
 {
-	usleep(start - current_time());
+	usleep(info()->start_time - current_time());
 }

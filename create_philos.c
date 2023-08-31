@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/31 16:45:36 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:12:50 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	create_philos(void)
 	(info()->philos) = (t_philo *)malloc(n_philos * (sizeof(t_philo)));
 	(info()->forks) = (pthread_mutex_t *)malloc(n_philos * (sizeof(pthread_mutex_t)));
 	while (++i < n_philos)
+		pthread_mutex_init(&info()->forks[i], 0);
+	i = -1;
+	while (++i < n_philos)
 	{
 		(info()->philos[i].id) = i + 1;
 		(info()->philos[i].next) = i + 2;
@@ -32,11 +35,10 @@ void	create_philos(void)
 			(info()->philos[i].next) = 1;
 		(info()->philos[i].meals_left) = info()->times_to_eat;
 		(info()->philos[i].last_meal) = info()->start_time;
-		pthread_create(&(info()->philos[i].thread), 0, &philo_handler, (void *)&(info()->philos[i]));
 	}
 	i = -1;
 	while (++i < n_philos)
-		pthread_mutex_init(&info()->forks[i], 0);
+		pthread_create(&(info()->philos[i].thread), 0, &philo_handler, (void *)&(info()->philos[i]));
 }
 
 void	*philo_handler(void *ptr)
@@ -44,11 +46,12 @@ void	*philo_handler(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	wait_time(info()->start_time);
-	if(philo->id == philo->next)
+	wait_time();
+	if(info()->n_philos == 1)
 	{
 		print_act((current_time() - info()->start_time) / 1000, 1, "thinking");
 		usleep(info()->death_time);
+		info()->dead = 1;
 		print_act((info()->death_time) / 1000, 1, "dead");
 		return (0);
 	}

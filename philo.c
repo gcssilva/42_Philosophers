@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/31 16:32:03 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:13:28 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,18 @@ int	main(int argc, char **argv)
 		if (i < 0)
 			i = 0;
 		(info()->think_time) = i * 1000;
-		(info()->start_time) = current_time() + (info()->n_philos * 2);
+		(info()->start_time) = current_time() + 100000;
+		(info()->dead) = 0;
 		create_philos();
+		while (1)
+		{
+			if (info()->dead > 0)
+			{
+				pthread_join(info()->philos[0].thread, 0);
+				return (0);
+			}
+		}
 	}
 	else
-		return(write(1, "Invalid arguments!\n", 19));
+		return(printf("Invalid arguments!\n"));
 }

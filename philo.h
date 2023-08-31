@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/31 16:42:11 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/31 17:01:30 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		is_nb(int c);
 long	ft_atoi(const char *str);
 void	print_act(int time, int id, char *act);
 long	current_time(void);
-void	wait_time(long start);
+void	wait_time(void);
 
 void	create_philos(void);
 void	*philo_handler(void *ptr);
