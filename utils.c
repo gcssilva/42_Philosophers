@@ -6,11 +6,17 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 13:33:27 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/29 15:59:44 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:14:06 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	is_nb(int c);
+long	ft_atoi(const char *str);
+void	print_act(int time, int id, char *act);
+long	current_time(void);
+void	wait_time(long start);
 
 int	is_nb(int c)
 {
@@ -19,7 +25,7 @@ int	is_nb(int c)
 	return (0);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
 	long int	s;
 	long int	nbr;
@@ -52,4 +58,17 @@ void	print_act(int time, int id, char *act)
 	pthread_mutex_lock(&info()->print_act);
 	printf("%i: Philosopher %i is %s.\n", time, id, act);
 	pthread_mutex_unlock(&info()->print_act);
+}
+
+long	current_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, 0);
+	return ((tv.tv_sec * 1000000L) + tv.tv_usec);
+}
+
+void	wait_time(long start)
+{
+	usleep(start - current_time());
 }

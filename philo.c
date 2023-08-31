@@ -6,11 +6,14 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/29 15:39:41 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/08/31 16:32:03 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+t_info	*info(void);
+int	check_input(char **argv);
 
 t_info	*info(void)
 {
@@ -39,20 +42,22 @@ int	check_input(char **argv)
 
 int	main(int argc, char **argv)
 {
-	int	i;
+	long	i;
 
 	if ((argc > 4 && argc < 7) && check_input(argv))
 	{
 		(info()->n_philos) = ft_atoi(argv[1]);
-		(info()->death_time) = ft_atoi(argv[2]);
-		(info()->eat_time) = ft_atoi(argv[3]);
-		(info()->sleep_time) = ft_atoi(argv[4]);
+		(info()->death_time) = ft_atoi(argv[2]) * 1000;
+		(info()->eat_time) = ft_atoi(argv[3]) * 1000;
+		(info()->sleep_time) = ft_atoi(argv[4]) * 1000;
 		if (argc == 6)
 			(info()->times_to_eat) = ft_atoi(argv[5]);
 		i = info()->eat_time - info()->sleep_time;
 		if (i < 0)
 			i = 0;
-		create_philos(i);
+		(info()->think_time) = i * 1000;
+		(info()->start_time) = current_time() + (info()->n_philos * 2);
+		create_philos();
 	}
 	else
 		return(write(1, "Invalid arguments!\n", 19));
