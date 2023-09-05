@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/31 17:12:50 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/05 13:49:08 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	create_philos(void);
 void	*philo_handler(void *ptr);
+void	ft_clean(void);
+void	ft_watcher(void);
 
 void	create_philos(void)
 {
@@ -47,6 +49,8 @@ void	*philo_handler(void *ptr)
 
 	philo = (t_philo *)ptr;
 	wait_time();
+	if (philo->id % 2 == 0)
+		usleep(1000);
 	if(info()->n_philos == 1)
 	{
 		print_act((current_time() - info()->start_time) / 1000, 1, "thinking");
@@ -65,4 +69,37 @@ void	*philo_handler(void *ptr)
 			return (0);
 	}
 	return (0);
+}
+
+void	ft_clean(void)
+{
+	int	i;
+
+	i = -1;
+	while (++i < info()->n_philos)
+		pthread_join(info()->philos[i].thread, 0);
+	while (--i >= 0)
+		pthread_mutex_destroy(&info()->forks[i]);
+	pthread_mutex_destroy(&info()->print_act);
+	pthread_mutex_destroy(&info()->info);
+	free(info()->philos);
+	free(info()->forks);
+}
+
+void	ft_watcher(void)
+{
+	int i;
+	int	flag;
+
+	flag = 0;
+	while (!flag && !info()->dead)
+	{
+		i = -1;
+		flag = 1;
+		while (++i < info()->n_philos)
+		{
+			if (info()->philos[i].meals_left != 0)
+				flag = 0;
+		}
+	}
 }

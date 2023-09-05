@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 13:33:27 by gsilva            #+#    #+#             */
-/*   Updated: 2023/08/31 17:01:14 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/05 13:07:43 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ long	ft_atoi(const char *str)
 void	print_act(int time, int id, char *act)
 {
 	pthread_mutex_lock(&info()->print_act);
-	printf("%i: Philosopher %i is %s.\n", time, id, act);
+	printf("%i\t%i\tis %s\n", time, id, act);
 	pthread_mutex_unlock(&info()->print_act);
 }
 
