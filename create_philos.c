@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/05 13:49:08 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/08 14:37:05 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ void	*philo_handler(void *ptr)
 	philo = (t_philo *)ptr;
 	wait_time();
 	if (philo->id % 2 == 0)
-		usleep(1000);
-	if(info()->n_philos == 1)
+		usleep(info()->eat_time);
+	else if (philo->id == info()->n_philos)
+		usleep(info()->eat_time * 2);
+	if (info()->n_philos == 1)
 	{
 		print_act((current_time() - info()->start_time) / 1000, 1, "thinking");
 		usleep(info()->death_time);
@@ -89,17 +91,15 @@ void	ft_clean(void)
 void	ft_watcher(void)
 {
 	int i;
-	int	flag;
 
-	flag = 0;
-	while (!flag && !info()->dead)
+	while (1)
 	{
-		i = -1;
-		flag = 1;
-		while (++i < info()->n_philos)
+		pthread_mutex_lock(&info()->info);
+		if (info()->dead || !info()->times_to_eat)
 		{
-			if (info()->philos[i].meals_left != 0)
-				flag = 0;
+			pthread_mutex_unlock(&info()->info);
+			break;
 		}
+		pthread_mutex_unlock(&info()->info);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 13:33:27 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/05 13:07:43 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/08 14:07:12 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ long	ft_atoi(const char *str)
 
 void	print_act(int time, int id, char *act)
 {
-	pthread_mutex_lock(&info()->print_act);
 	printf("%i\t%i\tis %s\n", time, id, act);
-	pthread_mutex_unlock(&info()->print_act);
 }
 
 long	current_time(void)
@@ -70,5 +68,9 @@ long	current_time(void)
 
 void	wait_time(void)
 {
-	usleep(info()->start_time - current_time());
+	long	time;
+
+	time = (info()->start_time - current_time());
+	if (time > 0)
+		usleep(time);
 }

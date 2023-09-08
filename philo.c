@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/05 13:32:32 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/08 14:07:30 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	main(int argc, char **argv)
 		(info()->think_time) = i * 1000;
 		(info()->start_time) = current_time() + 100000;
 		(info()->dead) = 0;
+		pthread_mutex_init(&info()->print_act, 0);
+		pthread_mutex_init(&info()->info, 0);
 		create_philos();
 		ft_watcher();
 		ft_clean();
