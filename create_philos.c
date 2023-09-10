@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/10 19:02:40 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:25:33 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	ft_clean(void)
 
 	i = -1;
 	while (++i < info()->n_philos)
-		pthread_join(info()->philos[i].thread, 0);
-	while (--i >= 0)
 		pthread_mutex_destroy(&info()->forks[i]);
 	pthread_mutex_destroy(&info()->print_act);
 	pthread_mutex_destroy(&info()->info);
@@ -98,14 +96,9 @@ void	ft_clean(void)
 
 void	ft_watcher(void)
 {
-	while (1)
-	{
-		pthread_mutex_lock(&info()->info);
-		if (info()->dead || !info()->times_to_eat)
-		{
-			pthread_mutex_unlock(&info()->info);
-			break ;
-		}
-		pthread_mutex_unlock(&info()->info);
-	}
+	int	i;
+
+	i = -1;
+	while (++i < info()->n_philos)
+		pthread_join(info()->philos[i].thread, 0);
 }
