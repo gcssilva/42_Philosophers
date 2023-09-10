@@ -6,14 +6,14 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/08 14:07:30 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/10 18:21:21 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 t_info	*info(void);
-int	check_input(char **argv);
+int		check_input(char **argv);
 
 t_info	*info(void)
 {
@@ -31,6 +31,8 @@ int	check_input(char **argv)
 	while (argv[++i])
 	{
 		j = -1;
+		if (argv[i][0] == '+')
+			j++;
 		while (argv[i][++j])
 		{
 			if (!is_nb(argv[i][j]))
@@ -53,18 +55,18 @@ int	main(int argc, char **argv)
 		(info()->times_to_eat) = -1;
 		if (argc == 6)
 			(info()->times_to_eat) = ft_atoi(argv[5]);
-		i = info()->eat_time - info()->sleep_time;
+		else
+			(info()->times_to_eat) = -1;
+		i = info()->eat_time - info()->sleep_time ;
 		if (i < 0)
 			i = 0;
-		(info()->think_time) = i * 1000;
-		(info()->start_time) = current_time() + 100000;
+		(info()->think_time) = i;
+		(info()->start_time) = current_time() + (info()->n_philos * 10000);
 		(info()->dead) = 0;
-		pthread_mutex_init(&info()->print_act, 0);
-		pthread_mutex_init(&info()->info, 0);
 		create_philos();
 		ft_watcher();
 		ft_clean();
 	}
 	else
-		return(printf("Invalid arguments!\n"));
+		return (printf("Invalid arguments!\n"));
 }

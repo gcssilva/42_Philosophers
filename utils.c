@@ -6,13 +6,13 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 13:33:27 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/08 14:07:12 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/10 18:43:36 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	is_nb(int c);
+int		is_nb(int c);
 long	ft_atoi(const char *str);
 void	print_act(int time, int id, char *act);
 long	current_time(void);
@@ -55,7 +55,9 @@ long	ft_atoi(const char *str)
 
 void	print_act(int time, int id, char *act)
 {
-	printf("%i\t%i\tis %s\n", time, id, act);
+	pthread_mutex_lock(&info()->print_act);
+	printf("%i\t%i\t%s\n", time, id, act);
+	pthread_mutex_unlock(&info()->print_act);
 }
 
 long	current_time(void)

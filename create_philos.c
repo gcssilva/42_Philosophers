@@ -6,13 +6,14 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/08 14:37:05 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/10 18:44:17 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void	create_philos(void);
+void	one_philo(void);
 void	*philo_handler(void *ptr);
 void	ft_clean(void);
 void	ft_watcher(void);
@@ -25,22 +26,32 @@ void	create_philos(void)
 	i = -1;
 	n_philos = info()->n_philos;
 	(info()->philos) = (t_philo *)malloc(n_philos * (sizeof(t_philo)));
-	(info()->forks) = (pthread_mutex_t *)malloc(n_philos * (sizeof(pthread_mutex_t)));
+	(info()->forks) = (pthread_mutex_t *)malloc(n_philos
+			* (sizeof(pthread_mutex_t)));
 	while (++i < n_philos)
 		pthread_mutex_init(&info()->forks[i], 0);
 	i = -1;
 	while (++i < n_philos)
 	{
 		(info()->philos[i].id) = i + 1;
-		(info()->philos[i].next) = i + 2;
-		if (i + 2 > n_philos)
-			(info()->philos[i].next) = 1;
 		(info()->philos[i].meals_left) = info()->times_to_eat;
 		(info()->philos[i].last_meal) = info()->start_time;
 	}
+	(info()->times_to_eat) = (info()->n_philos);
+	pthread_mutex_init(&info()->print_act, 0);
+	pthread_mutex_init(&info()->info, 0);
 	i = -1;
 	while (++i < n_philos)
-		pthread_create(&(info()->philos[i].thread), 0, &philo_handler, (void *)&(info()->philos[i]));
+		pthread_create(&(info()->philos[i].thread), 0,
+			&philo_handler, (void *)&(info()->philos[i]));
+}
+
+void	one_philo(void)
+{
+	print_act((current_time() - info()->start_time) / 1000, 1, THINK);
+	usleep(info()->death_time);
+	info()->dead = 1;
+	print_act((info()->death_time) / 1000, 1, DEAD);
 }
 
 void	*philo_handler(void *ptr)
@@ -49,21 +60,18 @@ void	*philo_handler(void *ptr)
 
 	philo = (t_philo *)ptr;
 	wait_time();
-	if (philo->id % 2 == 0)
-		usleep(info()->eat_time);
-	else if (philo->id == info()->n_philos)
-		usleep(info()->eat_time * 2);
 	if (info()->n_philos == 1)
 	{
-		print_act((current_time() - info()->start_time) / 1000, 1, "thinking");
-		usleep(info()->death_time);
-		info()->dead = 1;
-		print_act((info()->death_time) / 1000, 1, "dead");
+		one_philo();
 		return (0);
 	}
+	else if (philo->id % 2 == 0)
+		usleep(info()->eat_time / 2);
+	else if (philo->id == info()->n_philos)
+		usleep(info()->eat_time);
 	while (!death_check(philo->id))
 	{
-		if (!philo_eat(philo->id, philo->next))
+		if (!philo_eat(philo->id))
 			return (0);
 		if (!philo_sleep(philo->id))
 			return (0);
@@ -90,7 +98,7 @@ void	ft_clean(void)
 
 void	ft_watcher(void)
 {
-	int i;
+	int	i;
 
 	while (1)
 	{
@@ -98,7 +106,7 @@ void	ft_watcher(void)
 		if (info()->dead || !info()->times_to_eat)
 		{
 			pthread_mutex_unlock(&info()->info);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&info()->info);
 	}
