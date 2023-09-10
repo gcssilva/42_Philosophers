@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/10 18:44:17 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:02:40 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ void	ft_clean(void)
 
 void	ft_watcher(void)
 {
-	int	i;
-
 	while (1)
 	{
 		pthread_mutex_lock(&info()->info);

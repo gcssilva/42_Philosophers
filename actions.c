@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:34:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/10 18:44:01 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/10 19:09:39 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ int	death_check(int id)
 		pthread_mutex_unlock(&info()->info);
 		return (1);
 	}
-	pthread_mutex_unlock(&info()->info);
 	if ((current_time() - info()->philos[id - 1].last_meal)
 		> info()->death_time)
 	{
-		pthread_mutex_lock(&info()->info);
 		(info()->dead) = 1;
 		print_act((current_time() - info()->start_time) / 1000, id, DEAD);
 		pthread_mutex_unlock(&info()->info);
 		return (1);
 	}
+	pthread_mutex_unlock(&info()->info);
 	return (0);
 }
 
