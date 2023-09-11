@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 13:03:03 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:49:51 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	main(int argc, char **argv)
 		if (info()->eat_time > info()->death_time)
 			(info()->eat_time) = info()->death_time;
 		i = info()->eat_time - info()->sleep_time;
-		if (i < 0)
-			i = 0;
+		if (i <= 0)
+			i = 5000;
 		(info()->think_time) = i;
 		(info()->start_time) = current_time() + (info()->n_philos * 100000);
 		(info()->dead) = 0;

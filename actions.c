@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:34:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 13:50:21 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:53:47 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	lock_forks(int id);
 int	death_check(int id)
 {
 	pthread_mutex_lock(&info()->info);
-	if (info()->dead > 0 || (info()->philos[id - 1].meals_left) == 0)
+	if (info()->dead > 0 || (info()->times_to_eat) == 0)
 	{
 		pthread_mutex_unlock(&info()->info);
 		return (1);
@@ -47,11 +47,6 @@ int	philo_eat(int id)
 	else
 		i = 0;
 	lock_forks(id);
-	(info()->philos[id - 1].last_meal) = current_time();
-	print_act((current_time() - info()->start_time) / 1000, id, EAT);
-	usleep(info()->eat_time);
-	pthread_mutex_unlock(&info()->forks[id - 1]);
-	pthread_mutex_unlock(&info()->forks[i]);
 	info()->philos[id - 1].meals_left -= 1;
 	if (info()->philos[id - 1].meals_left == 0)
 	{
@@ -59,6 +54,11 @@ int	philo_eat(int id)
 		info()->times_to_eat -= 1;
 		pthread_mutex_unlock(&info()->info);
 	}
+	(info()->philos[id - 1].last_meal) = current_time();
+	print_act((current_time() - info()->start_time) / 1000, id, EAT);
+	usleep(info()->eat_time);
+	pthread_mutex_unlock(&info()->forks[id - 1]);
+	pthread_mutex_unlock(&info()->forks[i]);
 	if (death_check(id))
 		return (0);
 	return (1);
