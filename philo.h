@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 13:36:14 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 14:07:00 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
-# define FORK "has taken a fork."
-# define EAT "is eating."
+# define FORK "has taken a fork"
+# define EAT "is eating"
 # define THINK "is thinking"
-# define SLEEP "is sleeping."
-# define DEAD "died."
+# define SLEEP "is sleeping"
+# define DEAD "died"
 
 typedef struct s_philo
 {
