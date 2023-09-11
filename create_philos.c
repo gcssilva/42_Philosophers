@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/10 19:25:33 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:50:40 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void	*philo_handler(void *ptr)
 		return (0);
 	}
 	else if (philo->id % 2 == 0)
-		usleep(info()->eat_time / 2);
-	else if (philo->id == info()->n_philos)
 		usleep(info()->eat_time);
+	else if (philo->id == info()->n_philos)
+		usleep(info()->eat_time * 2);
 	while (!death_check(philo->id))
 	{
 		if (!philo_eat(philo->id))

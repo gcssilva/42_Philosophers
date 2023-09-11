@@ -6,16 +6,17 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:34:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/10 19:09:39 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 13:50:21 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	death_check(int id);
-int	philo_eat(int id);
-int	philo_sleep(int id);
-int	philo_think(int id);
+int		death_check(int id);
+int		philo_eat(int id);
+int		philo_sleep(int id);
+int		philo_think(int id);
+void	lock_forks(int id);
 
 int	death_check(int id)
 {
@@ -45,10 +46,7 @@ int	philo_eat(int id)
 		i = id;
 	else
 		i = 0;
-	pthread_mutex_lock(&info()->forks[id - 1]);
-	print_act((current_time() - info()->start_time) / 1000, id, FORK);
-	pthread_mutex_lock(&info()->forks[i]);
-	print_act((current_time() - info()->start_time) / 1000, id, FORK);
+	lock_forks(id);
 	(info()->philos[id - 1].last_meal) = current_time();
 	print_act((current_time() - info()->start_time) / 1000, id, EAT);
 	usleep(info()->eat_time);
@@ -96,4 +94,30 @@ int	philo_think(int id)
 	if (death_check(id))
 		return (0);
 	return (1);
+}
+
+void	lock_forks(int id)
+{
+	int	fork_1;
+	int	fork_2;
+
+	if (id == info()->n_philos)
+	{
+		fork_1 = 0;
+		fork_2 = id - 1;
+	}
+	else if (id % 2 == 1)
+	{
+		fork_1 = id - 1;
+		fork_2 = id;
+	}
+	else
+	{
+		fork_1 = id;
+		fork_2 = id - 1;
+	}
+	pthread_mutex_lock(&info()->forks[fork_1]);
+	print_act((current_time() - info()->start_time) / 1000, id, FORK);
+	pthread_mutex_lock(&info()->forks[fork_2]);
+	print_act((current_time() - info()->start_time) / 1000, id, FORK);
 }

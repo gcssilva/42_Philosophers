@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/10 18:42:00 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 13:36:14 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int		death_check(int id);
 int		philo_eat(int id);
 int		philo_sleep(int id);
 int		philo_think(int id);
+void	lock_forks(int id);
 
 #endif
