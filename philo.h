@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 14:07:00 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 16:55:40 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_info
 
 t_info	*info(void);
 int		check_input(char **argv);
+int		verify_end(void);
 
 int		is_nb(int c);
 long	ft_atoi(const char *str);
@@ -57,7 +58,7 @@ long	current_time(void);
 void	wait_time(void);
 
 void	create_philos(void);
-void	one_philo(void);
+void	*one_philo(void);
 void	*philo_handler(void *ptr);
 void	ft_clean(void);
 void	ft_watcher(void);

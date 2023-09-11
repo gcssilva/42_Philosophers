@@ -6,14 +6,14 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 15:35:29 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/11 17:06:45 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void	create_philos(void);
-void	one_philo(void);
+void	*one_philo(void);
 void	*philo_handler(void *ptr);
 void	ft_clean(void);
 void	ft_watcher(void);
@@ -46,12 +46,15 @@ void	create_philos(void)
 			&philo_handler, (void *)&(info()->philos[i]));
 }
 
-void	one_philo(void)
+void	*one_philo(void)
 {
+	pthread_mutex_lock(&info()->print_act);
 	print_act((current_time() - info()->start_time) / 1000, 1, THINK);
 	usleep(info()->death_time);
 	info()->dead = 1;
+	pthread_mutex_lock(&info()->print_act);
 	print_act((info()->death_time) / 1000, 1, DEAD);
+	return (0);
 }
 
 void	*philo_handler(void *ptr)
@@ -61,19 +64,18 @@ void	*philo_handler(void *ptr)
 	philo = (t_philo *)ptr;
 	wait_time();
 	if (info()->n_philos == 1)
-	{
-		one_philo();
-		return (0);
-	}
+		return (one_philo());
 	else if (philo->id % 2 == 1)
-		usleep(info()->eat_time);
-	while (!death_check(philo->id))
 	{
-		if (!philo_eat(philo->id))
-			return (0);
-		if (!philo_sleep(philo->id))
-			return (0);
-		if (!philo_think(philo->id))
+		pthread_mutex_lock(&info()->print_act);
+		print_act((current_time() - info()->start_time) / 1000,
+			philo->id, THINK);
+		usleep(info()->eat_time);
+	}
+	while (death_check(philo->id))
+	{
+		if (!philo_eat(philo->id) || !philo_sleep(philo->id)
+			|| !philo_think(philo->id))
 			return (0);
 	}
 	return (0);
