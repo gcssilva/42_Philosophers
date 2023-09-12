@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 16:37:39 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/12 17:57:40 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_info
 
 t_info	*info(void);
 int		check_input(char **argv);
-int		verify_end(void);
+void	think_time(void);
 
 int		is_nb(int c);
 long	ft_atoi(const char *str);

@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 16:38:03 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/12 17:54:13 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	*one_philo(void)
 {
 	print_act((current_time() - info()->start_time) / 1000, 1, THINK);
 	usleep(info()->death_time);
-	info()->dead = 1;
 	print_act((info()->death_time) / 1000, 1, DEAD);
 	return (0);
 }
@@ -65,9 +64,9 @@ void	*philo_handler(void *ptr)
 		return (one_philo());
 	else if (philo->id % 2 == 1)
 	{
-		print_act((current_time() - info()->start_time) / 1000,
-			philo->id, THINK);
-		usleep(info()->eat_time);
+		philo_think(philo->id);
+		if (philo->id == info()->n_philos)
+			usleep(1000);
 	}
 	while (death_check(philo->id))
 	{

@@ -1,6 +1,6 @@
 NAME	=	philo
 CC		=	cc
-CFLAGS	=	-Wall -Werror -Wextra -pthread -g -fsanitize=thread
+CFLAGS	=	-Wall -Werror -Wextra -pthread #-g -fsanitize=address
 SRC		=	actions.c \
 			create_philos.c \
 			philo.c \

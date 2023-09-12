@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 16:48:36 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/12 17:59:03 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_info	*info(void);
 int		check_input(char **argv);
-int		verify_end(void);
+void	think_time(void);
 
 t_info	*info(void)
 {
@@ -23,15 +23,21 @@ t_info	*info(void)
 	return (&_info);
 }
 
-int	verify_end(void)
+void	think_time(void)
 {
-	if (info()->dead > 0 || (info()->times_to_eat) == 0)
+	int	i;
+
+	if (info()->n_philos % 2 == 1
+		&& info()->death_time <= (info()->eat_time * 3))
+		info()->think_time = info()->death_time
+		- (info()->sleep_time + (info()->eat_time));
+	else
 	{
-		pthread_mutex_unlock(&info()->info);
-		return (1);
+		i = info()->eat_time - info()->sleep_time;
+		if (i <= 0)
+			i = 500;
+		info()->think_time = i;
 	}
-	pthread_mutex_unlock(&info()->info);
-	return (0);
 }
 
 int	check_input(char **argv)
@@ -56,8 +62,6 @@ int	check_input(char **argv)
 
 int	main(int argc, char **argv)
 {
-	long	i;
-
 	if ((argc > 4 && argc < 7) && check_input(argv))
 	{
 		(info()->n_philos) = ft_atoi(argv[1]);
@@ -67,14 +71,13 @@ int	main(int argc, char **argv)
 		(info()->times_to_eat) = -1;
 		if (argc == 6)
 			(info()->times_to_eat) = ft_atoi(argv[5]);
+		if (info()->times_to_eat == 0)
+			return (0);
 		if (info()->eat_time > info()->death_time)
 			(info()->eat_time) = info()->death_time;
-		i = info()->eat_time - info()->sleep_time;
-		if (i <= 0)
-			i = 500;
-		(info()->think_time) = i;
 		(info()->start_time) = current_time() + (info()->n_philos * 1000);
 		(info()->dead) = 0;
+		think_time();
 		create_philos();
 		ft_watcher();
 		ft_clean();

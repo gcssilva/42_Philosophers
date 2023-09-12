@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 13:33:27 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 16:38:44 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/12 18:12:26 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ long	ft_atoi(const char *str)
 
 void	print_act(int time, int id, char *act)
 {
-	pthread_mutex_lock(&info()->info);
 	pthread_mutex_lock(&info()->print_act);
-	if (!verify_end())
+	if (death_check(id))
 		printf("%i\t%i\t%s\n", time, id, act);
 	pthread_mutex_unlock(&info()->print_act);
 }
