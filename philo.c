@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 17:11:56 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/12 16:48:36 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	verify_end(void)
 {
 	if (info()->dead > 0 || (info()->times_to_eat) == 0)
 	{
-		pthread_mutex_unlock(&info()->print_act);
 		pthread_mutex_unlock(&info()->info);
 		return (1);
 	}
@@ -74,7 +73,7 @@ int	main(int argc, char **argv)
 		if (i <= 0)
 			i = 500;
 		(info()->think_time) = i;
-		(info()->start_time) = current_time() + (info()->n_philos * 100000);
+		(info()->start_time) = current_time() + (info()->n_philos * 1000);
 		(info()->dead) = 0;
 		create_philos();
 		ft_watcher();

@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:34:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 17:06:37 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/12 16:47:56 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	death_check(int id)
 	if ((current_time() - info()->philos[id - 1].last_meal)
 		> info()->death_time)
 	{
+		printf("%ld\t%i\t%s\n", ((current_time() - info()->start_time)
+				/ 1000), id, DEAD);
 		(info()->dead) = 1;
-		pthread_mutex_lock(&info()->print_act);
-		print_act((current_time() - info()->start_time) / 1000, id, DEAD);
 		pthread_mutex_unlock(&info()->info);
 		return (0);
 	}
@@ -49,10 +49,6 @@ int	philo_eat(int id)
 		i = 0;
 	lock_forks(id);
 	(info()->philos[id - 1].last_meal) = current_time();
-	pthread_mutex_lock(&info()->info);
-	pthread_mutex_lock(&info()->print_act);
-	if (verify_end())
-		return (0);
 	print_act((current_time() - info()->start_time) / 1000, id, EAT);
 	info()->philos[id - 1].meals_left -= 1;
 	if (info()->philos[id - 1].meals_left == 0)
@@ -73,10 +69,6 @@ int	philo_sleep(int id)
 
 	i = info()->death_time - (current_time()
 			- info()->philos[id - 1].last_meal);
-	pthread_mutex_lock(&info()->info);
-	pthread_mutex_lock(&info()->print_act);
-	if (verify_end())
-		return (0);
 	print_act((current_time() - info()->start_time) / 1000, id, SLEEP);
 	if (i < info()->sleep_time)
 		usleep(i);
@@ -91,10 +83,6 @@ int	philo_think(int id)
 
 	i = info()->death_time - (current_time()
 			- info()->philos[id - 1].last_meal);
-	pthread_mutex_lock(&info()->info);
-	pthread_mutex_lock(&info()->print_act);
-	if (verify_end())
-		return (0);
 	print_act((current_time() - info()->start_time) / 1000, id, THINK);
 	if (i < info()->think_time)
 		usleep(i);
@@ -124,9 +112,7 @@ void	lock_forks(int id)
 		fork_2 = id - 1;
 	}
 	pthread_mutex_lock(&info()->forks[fork_1]);
-	pthread_mutex_lock(&info()->print_act);
 	print_act((current_time() - info()->start_time) / 1000, id, FORK);
 	pthread_mutex_lock(&info()->forks[fork_2]);
-	pthread_mutex_lock(&info()->print_act);
 	print_act((current_time() - info()->start_time) / 1000, id, FORK);
 }

@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/11 17:06:45 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/12 16:38:03 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,9 @@ void	create_philos(void)
 
 void	*one_philo(void)
 {
-	pthread_mutex_lock(&info()->print_act);
 	print_act((current_time() - info()->start_time) / 1000, 1, THINK);
 	usleep(info()->death_time);
 	info()->dead = 1;
-	pthread_mutex_lock(&info()->print_act);
 	print_act((info()->death_time) / 1000, 1, DEAD);
 	return (0);
 }
@@ -67,7 +65,6 @@ void	*philo_handler(void *ptr)
 		return (one_philo());
 	else if (philo->id % 2 == 1)
 	{
-		pthread_mutex_lock(&info()->print_act);
 		print_act((current_time() - info()->start_time) / 1000,
 			philo->id, THINK);
 		usleep(info()->eat_time);
