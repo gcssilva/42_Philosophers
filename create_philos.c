@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/15 17:03:53 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/15 18:01:57 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	*philo_handler(void *ptr)
 		print_act(philo->id, THINK);
 		usleep(info()->eat_time - 1000);
 	}
-	while (death_check(philo->id))
+	while (death_check(philo->id, 0))
 	{
 		if (!philo_eat(philo->id) || !philo_sleep(philo->id)
 			|| !philo_think(philo->id))

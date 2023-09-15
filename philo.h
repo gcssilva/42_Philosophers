@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/15 16:33:19 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/15 18:01:06 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	*philo_handler(void *ptr);
 void	ft_clean(void);
 void	ft_watcher(void);
 
-int		death_check(int id);
+int		death_check(int id, int flag);
 int		philo_eat(int id);
 int		philo_sleep(int id);
 int		philo_think(int id);
