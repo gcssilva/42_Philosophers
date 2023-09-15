@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 13:33:27 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 18:12:26 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/15 16:17:48 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		is_nb(int c);
 long	ft_atoi(const char *str);
-void	print_act(int time, int id, char *act);
+void	print_act(int id, char *act);
 long	current_time(void);
 void	wait_time(void);
 
@@ -53,11 +53,12 @@ long	ft_atoi(const char *str)
 	return (nbr * s);
 }
 
-void	print_act(int time, int id, char *act)
+void	print_act(int id, char *act)
 {
 	pthread_mutex_lock(&info()->print_act);
 	if (death_check(id))
-		printf("%i\t%i\t%s\n", time, id, act);
+		printf("%ld\t%i\t%s\n", (current_time() - info()->start_time)
+		/ 1000, id, act);
 	pthread_mutex_unlock(&info()->print_act);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:48:47 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 17:54:13 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/15 17:03:53 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	create_philos(void)
 
 void	*one_philo(void)
 {
-	print_act((current_time() - info()->start_time) / 1000, 1, THINK);
+	print_act(1, THINK);
 	usleep(info()->death_time);
-	print_act((info()->death_time) / 1000, 1, DEAD);
+	print_act(1, DEAD);
 	return (0);
 }
 
@@ -60,13 +60,14 @@ void	*philo_handler(void *ptr)
 
 	philo = (t_philo *)ptr;
 	wait_time();
+	if (philo->meals_left == 0)
+		return (0);
 	if (info()->n_philos == 1)
 		return (one_philo());
-	else if (philo->id % 2 == 1)
+	else if (philo->id % 2 == 0)
 	{
-		philo_think(philo->id);
-		if (philo->id == info()->n_philos)
-			usleep(1000);
+		print_act(philo->id, THINK);
+		usleep(info()->eat_time - 1000);
 	}
 	while (death_check(philo->id))
 	{

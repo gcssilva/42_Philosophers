@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:10:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 17:57:40 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/15 16:33:19 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	think_time(void);
 
 int		is_nb(int c);
 long	ft_atoi(const char *str);
-void	print_act(int time, int id, char *act);
+void	print_act(int id, char *act);
 long	current_time(void);
 void	wait_time(void);
 
@@ -67,6 +67,6 @@ int		death_check(int id);
 int		philo_eat(int id);
 int		philo_sleep(int id);
 int		philo_think(int id);
-void	lock_forks(int id);
+void	lock_forks(int id, int fork_1, int fork_2);
 
 #endif

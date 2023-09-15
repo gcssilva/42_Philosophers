@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:00:18 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 17:59:03 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/15 16:03:07 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,16 @@ t_info	*info(void)
 
 void	think_time(void)
 {
-	int	i;
-
 	if (info()->n_philos % 2 == 1
 		&& info()->death_time <= (info()->eat_time * 3))
 		info()->think_time = info()->death_time
 		- (info()->sleep_time + (info()->eat_time));
 	else
 	{
-		i = info()->eat_time - info()->sleep_time;
-		if (i <= 0)
-			i = 500;
-		info()->think_time = i;
+		if (info()->eat_time - info()->sleep_time > 500)
+			info()->think_time = (info()->eat_time - info()->sleep_time) + 500;
+		else
+			info()->think_time = 500;
 	}
 }
 
@@ -71,11 +69,9 @@ int	main(int argc, char **argv)
 		(info()->times_to_eat) = -1;
 		if (argc == 6)
 			(info()->times_to_eat) = ft_atoi(argv[5]);
-		if (info()->times_to_eat == 0)
-			return (0);
 		if (info()->eat_time > info()->death_time)
 			(info()->eat_time) = info()->death_time;
-		(info()->start_time) = current_time() + (info()->n_philos * 1000);
+		(info()->start_time) = current_time() + (info()->n_philos * 1500);
 		(info()->dead) = 0;
 		think_time();
 		create_philos();

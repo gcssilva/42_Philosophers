@@ -6,7 +6,7 @@
 /*   By: gsilva <gsilva@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 15:34:08 by gsilva            #+#    #+#             */
-/*   Updated: 2023/09/12 16:47:56 by gsilva           ###   ########.fr       */
+/*   Updated: 2023/09/15 17:05:55 by gsilva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		death_check(int id);
 int		philo_eat(int id);
 int		philo_sleep(int id);
 int		philo_think(int id);
-void	lock_forks(int id);
+void	lock_forks(int id, int fork_1, int fork_2);
 
 int	death_check(int id)
 {
@@ -47,9 +47,9 @@ int	philo_eat(int id)
 		i = id;
 	else
 		i = 0;
-	lock_forks(id);
+	lock_forks(id, id - 1, id % info()->n_philos);
 	(info()->philos[id - 1].last_meal) = current_time();
-	print_act((current_time() - info()->start_time) / 1000, id, EAT);
+	print_act(id, EAT);
 	info()->philos[id - 1].meals_left -= 1;
 	if (info()->philos[id - 1].meals_left == 0)
 	{
@@ -69,7 +69,7 @@ int	philo_sleep(int id)
 
 	i = info()->death_time - (current_time()
 			- info()->philos[id - 1].last_meal);
-	print_act((current_time() - info()->start_time) / 1000, id, SLEEP);
+	print_act(id, SLEEP);
 	if (i < info()->sleep_time)
 		usleep(i);
 	else
@@ -82,37 +82,27 @@ int	philo_think(int id)
 	long	i;
 
 	i = info()->death_time - (current_time()
-			- info()->philos[id - 1].last_meal);
-	print_act((current_time() - info()->start_time) / 1000, id, THINK);
-	if (i < info()->think_time)
+			- info()->philos[id - 1].last_meal) - (info()->eat_time);
+	print_act(id, THINK);
+	if (i > 0)
 		usleep(i);
-	else
-		usleep(info()->think_time);
 	return (death_check(id));
 }
 
-void	lock_forks(int id)
+void	lock_forks(int id, int fork_1, int fork_2)
 {
-	int	fork_1;
-	int	fork_2;
-
-	if (id == info()->n_philos)
+	if (id % 2 == 1 && id != info()->n_philos)
 	{
-		fork_1 = 0;
-		fork_2 = id - 1;
-	}
-	else if (id % 2 == 1)
-	{
-		fork_1 = id - 1;
-		fork_2 = id;
+		pthread_mutex_lock(&info()->forks[fork_1]);
+		print_act(id, FORK);
+		pthread_mutex_lock(&info()->forks[fork_2]);
+		print_act(id, FORK);
 	}
 	else
 	{
-		fork_1 = id;
-		fork_2 = id - 1;
+		pthread_mutex_lock(&info()->forks[fork_2]);
+		print_act(id, FORK);
+		pthread_mutex_lock(&info()->forks[fork_1]);
+		print_act(id, FORK);
 	}
-	pthread_mutex_lock(&info()->forks[fork_1]);
-	print_act((current_time() - info()->start_time) / 1000, id, FORK);
-	pthread_mutex_lock(&info()->forks[fork_2]);
-	print_act((current_time() - info()->start_time) / 1000, id, FORK);
 }
